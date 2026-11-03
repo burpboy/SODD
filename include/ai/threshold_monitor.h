@@ -4,6 +4,7 @@
 #include <chrono>
 #include <atomic>
 #include <mutex>
+#include <cstdint>
 
 class ThresholdMonitor {
 private:
@@ -60,4 +61,3 @@ public:
 };
 
 #endif // THRESHOLD_MONITOR_H
-
