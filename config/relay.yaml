@@ -1,0 +1,26 @@
+# ==========================================
+# Konfigurasi Relay Nodes (relay.yaml)
+# ==========================================
+
+relay:
+  id: "relay_node_01"
+  listen_host: "0.0.0.0"
+  listen_port: 9090
+  upstream_master: "127.0.0.1:8080"
+  max_forward_connections: 5000
+
+security:
+  encryption_enabled: true
+  key_path: "config/crypto/aes256_key.bin"
+  allowed_bot_subnets:
+    - "10.0.0.0/8"
+    - "192.168.1.0/24"
+
+performance:
+  buffer_size: 8192
+  keep_alive_timeout: 60
+  rate_limit_per_bot_rps: 2000
+
+logging:
+  level: "WARN"
+  output: "logs/relay_01.log"

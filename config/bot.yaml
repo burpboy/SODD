@@ -1,0 +1,32 @@
+# ==========================================
+# Konfigurasi Bot Instance (bot.yaml)
+# ==========================================
+
+bot:
+  id: "bot_instance_001"
+  group: "asia-southeast-1"
+  max_threads: 64
+  heartbeat_interval_sec: 15
+
+c2:
+  master_host: "127.0.0.1"
+  master_port: 8080
+  use_relay: true
+  relay_host: "127.0.0.1"
+  relay_port: 9090
+  protocol: "QUIC" # Pilihan: TCP, QUIC
+
+security:
+  encryption_enabled: true
+  key_path: "config/crypto/aes256_key.bin"
+
+engine:
+  use_proxy_pool: true
+  proxy_file: "assets/proxies.csv"
+  user_agent_file: "assets/user_agents.txt"
+  tls_fingerprint_spoof: true
+
+ai_adaptivity:
+  kill_switch_enabled: true
+  error_threshold_pct: 35.0 # Pause otomatis jika error 5xx > 35%
+  auto_waf_probing: true

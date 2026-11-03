@@ -1,0 +1,75 @@
+version: '3.8'
+
+networks:
+  c2_network:
+  # driver: bridge (default)
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.28.0.0/16
+
+services:
+  master:
+    build:
+      context: .
+      dockerfile: Dockerfile.master # Asumsi Dockerfile terpisah atau multi-stage
+    container_name: ddos_master
+    restart: unless-stopped
+    networks:
+      c2_network:
+        ipv4_address: 172.28.0.10
+    ports:
+      - "8080:8080"  # Dashboard / Management API
+      - "9000:9000"  # C2 Control Port (Master <-> Relay)
+    volumes:
+      - ./config:/app/config:ro
+      - ./assets:/app/assets:ro
+      - ./logs:/app/logs
+    environment:
+      - NODE_ROLE=MASTER
+      - CONFIG_PATH=/app/config/master.yaml
+
+  relay:
+    build:
+      context: .
+      dockerfile: Dockerfile.relay
+    container_name: ddos_relay_01
+    restart: unless-stopped
+    depends_on:
+      - master
+    networks:
+      c2_network:
+        ipv4_address: 172.28.0.20
+    ports:
+      - "9001:9001"  # Relay Listener Port (Relay <-> Bot)
+    volumes:
+      - ./config:/app/config:ro
+      - ./assets:/app/assets:ro
+      - ./logs:/app/logs
+    environment:
+      - NODE_ROLE=RELAY
+      - MASTER_HOST=172.28.0.10
+      - MASTER_PORT=9000
+      - CONFIG_PATH=/app/config/relay.yaml
+
+  bot:
+    build:
+      context: .
+      dockerfile: Dockerfile.bot
+    container_name: ddos_bot_01
+    restart: unless-stopped
+    depends_on:
+      - relay
+    networks:
+      c2_network:
+        ipv4_address: 172.28.0.30
+    volumes:
+      - ./config:/app/config:ro
+      - ./assets:/app/assets:ro
+      - ./logs:/app/logs
+    environment:
+      - NODE_ROLE=BOT
+      - RELAY_HOST=172.28.0.20
+      - RELAY_PORT=9001
+      - CONFIG_PATH=/app/config/bot.yaml
+

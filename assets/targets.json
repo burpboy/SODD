@@ -1,0 +1,25 @@
+{
+    "targets": [
+        {
+            "id": "target_01",
+            "url": "https://example.com/api/v1/resource",
+            "method": "POST",
+            "weight": 50,
+            "timeout_ms": 5000,
+            "headers": {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            }
+        },
+        {
+            "id": "target_02",
+            "url": "https://test-server.local/login",
+            "method": "GET",
+            "weight": 50,
+            "timeout_ms": 3000,
+            "headers": {
+                "Accept": "text/html,application/xhtml+xml"
+            }
+        }
+    ]
+}

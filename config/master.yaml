@@ -1,0 +1,25 @@
+# ==========================================
+# Konfigurasi Master Node (master.yaml)
+# ==========================================
+
+server:
+  host: "0.0.0.0"
+  port: 8080
+  max_connections: 10000
+  auth_token: "secret_master_token_change_me"
+
+thresholds:
+  global_rps_limit: 50000
+  error_rate_pause_limit: 40.0
+  heartbeat_timeout_sec: 45
+
+targets:
+  default_target: "https://example.com/api/v1/resource"
+  strategy: "SMART_LAYER_7" # Pilihan: SLOWLORIS, API_HAMMER, HUMAN_MIMICRY
+  concurrency_multiplier: 2
+  payload_profile: "dynamic_json"
+
+logging:
+  level: "INFO"
+  output: "logs/master.log"
+  structured_json: true

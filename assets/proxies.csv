@@ -1,0 +1,6 @@
+IP,Port,Username,Password
+192.168.1.101,8080,user1,pass123
+10.0.0.45,3128,proxy_admin,secr3t
+172.16.0.22,1080,bot_user,toor99
+203.0.113.5,9050,anon_proxy,xyz789
+198.51.100.14,80,test_user,abc12345
