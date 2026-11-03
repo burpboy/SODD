@@ -33,14 +33,6 @@ public:
         result.response_code = 0;
 
         // Simulasi pengiriman payload benign anomaly untuk memancing respons WAF
-        // Contoh: Mengirim string SQLi atau XSS ringan di header/URI
-        
-        // Pseudo-logic deteksi berdasarkan header respons umum:
-        // - Cloudflare: "cf-ray", "server: cloudflare"
-        // - Akamai: "x-akamai-transformed"
-        // - Incapsula: "visid_incap_" cookie
-        
-        // (Implementasi socket/HTTP request sederhana di sini)
         
         return result;
     }
@@ -58,4 +50,3 @@ public:
 };
 
 #endif // WAF_PROBER_H
-
