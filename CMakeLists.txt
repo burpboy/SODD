@@ -86,3 +86,12 @@ foreach(TARGET_NAME ddos-bot ddos-master ddos-relay)
             pthread
     )
 endforeach()
+
+include_directories(
+    include
+    src/core
+    src/include
+    src/include/engine
+    src/include/attack
+    src/include/core
+)
