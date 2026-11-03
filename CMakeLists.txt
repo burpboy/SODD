@@ -4,18 +4,20 @@ project(ddos_botnet C)
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 
-# Opsi kompilasi umum dan peringatan
-# Ditambahkan -Wno-error=implicit-function-declaration agar error fungsi tidak terdeteksi sebagai fatal error
-add_compile_options(-Wall -Wextra -pthread -Wno-error=implicit-function-declaration)
+# Opsi kompilasi umum dan peringatan (ditambahkan penanganan warning agar tidak menjadi error fatal)
+add_compile_options(-Wall -Wextra -pthread -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types)
 
-# Direktori include global
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
+# Direktori include global (ditambahkan src/core agar file header protocol terbaca)
+include_directories(
+    ${CMAKE_CURRENT_SOURCE_DIR}/include
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/core
+)
 
-# Temukan dependensi eksternal yang dibutuhkan (OpenSSL & cURL)
+# Temukan dependensi eksternal yang dibutuhkan (OpenSSL & cURL)[span_1](start_span)[span_1](end_span)
 find_package(OpenSSL REQUIRED)
 find_package(CURL REQUIRED)
 
-# Daftar file sumber berdasarkan modul
+# Daftar file sumber berdasarkan modul[span_2](start_span)[span_2](end_span)
 set(AI_SOURCES
     src/ai/kill_switch.c
     src/ai/threshold_monitor.c
@@ -54,7 +56,7 @@ set(UTILS_SOURCES
     src/utils/metrics.c
 )
 
-# Gabungkan seluruh file implementasi modul dengan entry point utama
+# Gabungkan seluruh file implementasi modul dengan entry point utama[span_3](start_span)[span_3](end_span)
 set(ALL_SOURCES
     src/main.c
     ${AI_SOURCES}
@@ -65,15 +67,15 @@ set(ALL_SOURCES
     ${UTILS_SOURCES}
 )
 
-# Atur direktori output binary agar langsung mengarah ke folder build/
+# Atur direktori output binary agar langsung mengarah ke folder build/[span_4](start_span)[span_4](end_span)
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/build)
 
-# Definisi target executable sesuai dengan kebutuhan binary output
+# Definisi target executable sesuai dengan kebutuhan binary output[span_5](start_span)[span_5](end_span)
 add_executable(ddos-bot ${ALL_SOURCES})
 add_executable(ddos-master ${ALL_SOURCES})
 add_executable(ddos-relay ${ALL_SOURCES})
 
-# Tautkan pustaka OpenSSL, cURL, math, dan pthread ke semua target binary
+# Tautkan pustaka OpenSSL, cURL, math, dan pthread ke semua target binary[span_6](start_span)[span_6](end_span)
 foreach(TARGET_NAME ddos-bot ddos-master ddos-relay)
     target_link_libraries(${TARGET_NAME} 
         PRIVATE 
