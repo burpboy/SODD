@@ -1,6 +1,6 @@
-#include "core/c2_client.h"
-#include "utils/logger.h"
-#include "utils/crypto_utils.h"
+#include "../include/core/c2_client.h"
+#include "../include/utils/logger.h"
+#include "../include/utils/crypto_utils.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -99,4 +99,3 @@ void c2_disconnect(int sock) {
         log_info("C2 Client: Socket terputus dan ditutup.");
     }
 }
-
