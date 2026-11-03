@@ -10,6 +10,7 @@
 #include <unistd.h>
 #include "../../include/attack/api_hammer.h"
 #include "../../include/engine/http_engine.h"
+#include "http_engine.h"
 
 // Fungsi untuk melakukan hammering pada endpoint target spesifik
 int api_hammer_execute(const char *target_url, int thread_id, int requests_count) {
