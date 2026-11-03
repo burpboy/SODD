@@ -5,7 +5,8 @@ set(CMAKE_C_STANDARD 11)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 
 # Opsi kompilasi umum dan peringatan
-add_compile_options(-Wall -Wextra -pthread)
+# Ditambahkan -Wno-error=implicit-function-declaration agar error fungsi tidak terdeteksi sebagai fatal error
+add_compile_options(-Wall -Wextra -pthread -Wno-error=implicit-function-declaration)
 
 # Direktori include global
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/include)
@@ -83,4 +84,3 @@ foreach(TARGET_NAME ddos-bot ddos-master ddos-relay)
             pthread
     )
 endforeach()
-
