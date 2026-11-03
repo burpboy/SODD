@@ -1,11 +1,11 @@
 #ifndef KILL_SWITCH_H
-#зывают
 #define KILL_SWITCH_H
 
 #include <atomic>
 #include <chrono>
 #include <csignal>
 #include <functional>
+#include <string>
 
 class KillSwitch {
 private:
@@ -87,4 +87,3 @@ private:
 };
 
 #endif // KILL_SWITCH_H
-
