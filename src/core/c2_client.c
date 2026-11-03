@@ -1,5 +1,5 @@
 #include "../include/core/c2_client.h"
-#include "../include/utils/logger.h"
+#include "log.h"
 #include "../include/utils/crypto_utils.h"
 
 #include <stdio.h>
