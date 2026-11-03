@@ -49,4 +49,3 @@ const char* get_mode_string(NodeMode mode);
 #endif
 
 #endif /* MAIN_H */
-
