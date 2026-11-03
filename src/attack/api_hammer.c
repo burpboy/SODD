@@ -18,7 +18,6 @@ int api_hammer_execute(const char *target_url, int thread_id, int requests_count
     
     for (int i = 0; i < requests_count; i++) {
         // Simulasi pengiriman request HTTP menggunakan engine
-        // Diimplementasikan dengan memanggil http_engine wrapper
         int status_code = http_engine_send_request(target_url, "POST", "application/json");
         
         if (status_code > 0) {
